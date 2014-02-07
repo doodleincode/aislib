@@ -227,7 +227,7 @@ class AIS(object):
         # Otherwise set the variable
         self._ais_message = ais_message
         
-    def build_payload(self, invert_crc = True):
+    def build_payload(self, invert_crc = False):
         """
         Builds the AIS NMEA message string
         This method only supports AIVDM, single fragment, 168 bit (28-char) payload
