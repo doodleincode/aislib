@@ -7,8 +7,8 @@ This library supports creating and decoding NMEA formatted AIS type 1 messages
 
 @author     Daniel Hong
 
-GNU GENERAL PUBLIC LICENSE Version 2. A LICENSE file should have
-accompanied this library.
+This program is licensed under the GNU GENERAL PUBLIC LICENSE Version 2. 
+A LICENSE file should have accompanied this program.
  
 """
 
@@ -54,9 +54,9 @@ class AISMessage(object):
     def __init__(self, elements):
         # Init our bit mapping and load up default message values
         for key, arr in elements.iteritems():
-            # arr[0] == number of bits for given element
-            # arr[1] == the default value for the element
-            # arr[2] == data type of the element
+            # arr[0] == data type of the element
+            # arr[1] == number of bits for given element
+            # arr[2] == the default value for the element
             self._bitmap[key] = [ arr[0], arr[1] ]
             
             # Set default value
@@ -100,7 +100,7 @@ class AISMessage(object):
     
     def get_attr(self, name):
         """
-        Returns a signed integer representation of the binary value for the given 
+        Returns an integer representation of the binary value for the given 
         element name.
         
         @param  name    Name of the AIS message element to retrieve
@@ -269,7 +269,7 @@ class AIS(object):
         @param  bitstr  The bitstream. This should be a Bit object generated 
                         from bitstring.Bit(...). If this is not provided, then
                         it will use the bitstring from the '_ais_message' property
-        @param          6-bit encoded AIS string
+        @return         6-bit encoded AIS string
         """
         
         curr_index = 0
