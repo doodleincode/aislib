@@ -2,11 +2,11 @@
 
 """
 Simple AIS library.
-This library supports creating and decoding NMEA formatted AIS type 1 messages
-(Scheduled Position Reports).
+This library supports creating and decoding NMEA formatted AIS type 24 messages
+(Static Data Report).
 
 @author     Daniel Hong
-
+https://github.com/doodleincode/aislib
 This program is licensed under the GNU GENERAL PUBLIC LICENSE Version 2. 
 A LICENSE file should have accompanied this program.
  
@@ -33,6 +33,16 @@ for i in range(len(encodingchars)):
     re_encodingchars[encodingchars[i]] = i
 
 # END character encoding map
+
+AISchars='@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_ !"#$%&\'()*+,-./0123456789:;<=>?'
+re_AISchars = {}
+for i in range(len(AISchars)):
+    re_AISchars[AISchars[i]] = i
+
+def AISString2Bits(name,length=20):
+    if len(name)>length: name = name[:length]
+    if len(name)<length: name = name+'@'*(length-len(name))
+    return bitstring.Bits().join(['uint:6=%d' % re_AISchars[name[k]] for k in range(len(name))])
 
 def int2bin6(num):
     """
@@ -83,7 +93,7 @@ class AISMessage(object):
         We are overriding the __setattr__ to implement dynamic property "setters".
         """
         
-        if type(value) != int:
+        if type(value) not in [ int,long]:
             raise TypeError("Value must be an integer.")
             
         if name == "_bitmap":
@@ -214,6 +224,45 @@ class AISPositionReportMessage(AISMessage):
         self._attrs["raim"]     = bitstring.Bits(bin=bitstream[148:149])
         self._attrs["comm_state"] = bitstring.Bits(bin=bitstream[149:168])
             
+
+class AISStaticDataReportAMessage(AISMessage):
+    def __init__(self, id=24, repeat=0, mmsi=0, partno=0, shipname=0, spare=0):
+        """
+        Returns an instance of an AIS Static Data Report Message Format A class
+        The parameters contain the default values, simply set the parameters
+        who's value need to change. Ex:
+            
+            aismsg = AISPositionReportAMessage(mmsi=12345, shipname=0)
+        """
+        
+        super(AISStaticDataReportAMessage, self).__init__({
+                    # message_element : ["data_type", num_bits, initial_value]
+                    'id'              : ["uint", 6, id], 
+                    'repeat'          : ["uint", 2, repeat], 
+                    'mmsi'            : ["uint", 30, mmsi], 
+                    'partno'          : ["uint", 2, partno], 
+                    'shipname'        : ["uint", 120, shipname], 
+                    'spare'           : ["uint", 8, spare]
+                })
+    
+    def build_bitstream(self):
+        return bitstring.Bits().join([
+            self.id,
+            self.repeat,
+            self.mmsi,
+            self.partno,
+            self.shipname,
+            self.spare
+        ])
+    
+    def unpack(self, bitstream):
+        # TODO: figure out a better way to do this, but works fine for now
+        self._attrs["id"]       = bitstring.Bits(bin=bitstream[0:6])
+        self._attrs["repeat"]   = bitstring.Bits(bin=bitstream[6:8])
+        self._attrs["mmsi"]     = bitstring.Bits(bin=bitstream[8:38])
+        self._attrs["partno"]   = bitstring.Bits(bin=bitstream[38:40])
+        self._attrs["shipname"]      = bitstring.Bits(bin=bitstream[40:160])
+        self._attrs["spare"]      = bitstring.Bits(bin=bitstream[160:168])
         
 class AIS(object):
     # Instance of the AISMessage class
@@ -231,6 +280,7 @@ class AIS(object):
         """
         Builds the AIS NMEA message string
         This method only supports AIVDM, single fragment, 168 bit (28-char) payload
+        Type 1 and Type 24 format A are of this kind
         
         Field 1, !AIVDM, identifies this as an AIVDM packet.
 
