@@ -1,7 +1,9 @@
 aislib
 ======
 
-A Python library for decoding and encoding AIS type 1 messages.
+A Python library for decoding and encoding: 
+ * AIS type 1 messages
+ * AIS type 24 part A and Part B (main craft case )
 
 The bitstring Python library is a required dependency. You can get it here: https://pypi.python.org/pypi/bitstring
 
