@@ -230,7 +230,7 @@ class AISStaticDataReportAMessage(AISMessage):
         """
         Returns an instance of an AIS Static Data Report Message Format A class
         The parameters contain the default values, simply set the parameters
-        who's value need to change. Ex:
+        whose values need to change. Ex:
             
             aismsg = AISPositionReportAMessage(mmsi=12345, shipname=0)
         """
@@ -263,6 +263,73 @@ class AISStaticDataReportAMessage(AISMessage):
         self._attrs["partno"]   = bitstring.Bits(bin=bitstream[38:40])
         self._attrs["shipname"]      = bitstring.Bits(bin=bitstream[40:160])
         self._attrs["spare"]      = bitstring.Bits(bin=bitstream[160:168])
+        
+
+class AISStaticDataReportBMessage(AISMessage):
+    def __init__(self, id=24, repeat=0, mmsi=0, partno=1, shiptype=0,
+                       vendorid=0,model=0,serial=0,callsign=0,
+                       to_bow=0,to_stern=0,to_port=0,to_starboard=0,
+                       spare=0):
+        """
+        Returns an instance of an AIS Static Data Report Message Format A class
+        The parameters contain the default values, simply set the parameters
+        whose values need to change. Ex:
+            
+            aismsg = AISPositionReportBMessage(mmsi=12345, shiptype=60)
+        """
+        
+        super(AISStaticDataReportBMessage, self).__init__({
+                    # message_element : ["data_type", num_bits, initial_value]
+                    'id'              : ["uint", 6, id], 
+                    'repeat'          : ["uint", 2, repeat], 
+                    'mmsi'            : ["uint", 30, mmsi], 
+                    'partno'          : ["uint", 2, partno], 
+                    'shiptype'        : ["uint", 8, shiptype], 
+                    'vendorid'        : ["uint", 18, vendorid], 
+                    'model'           : ["uint", 4, model], 
+                    'serial'          : ["uint", 20, serial], 
+                    'callsign'        : ["uint", 42, callsign], 
+                    'to_bow'          : ["uint", 9, to_bow], 
+                    'to_stern'        : ["uint", 9, to_stern], 
+                    'to_port'         : ["uint", 6, to_port], 
+                    'to_starboard'    : ["uint", 6, to_starboard], 
+                    'spare'           : ["uint", 6, spare]
+                })
+    
+    def build_bitstream(self):
+        return bitstring.Bits().join([
+            self.id,
+            self.repeat,
+            self.mmsi,
+            self.partno,
+            self.shiptype,
+            self.vendorid,
+            self.model,
+            self.serial,
+            self.callsign,
+            self.to_bow,
+            self.to_stern,
+            self.to_port,
+            self.to_starboard,
+            self.spare
+        ])
+    
+    def unpack(self, bitstream):
+        # TODO: figure out a better way to do this, but works fine for now
+        self._attrs["id"]       = bitstring.Bits(bin=bitstream[0:6])
+        self._attrs["repeat"]   = bitstring.Bits(bin=bitstream[6:8])
+        self._attrs["mmsi"]     = bitstring.Bits(bin=bitstream[8:38])
+        self._attrs["partno"]   = bitstring.Bits(bin=bitstream[38:40])
+        self._attrs["shiptype"] = bitstring.Bits(bin=bitstream[40:48])
+        self._attrs["vendorid"] = bitstring.Bits(bin=bitstream[48:66])
+        self._attrs["model"]    = bitstring.Bits(bin=bitstream[66:70])
+        self._attrs["serial"]   = bitstring.Bits(bin=bitstream[70:90])
+        self._attrs["callsign"] = bitstring.Bits(bin=bitstream[90:132])
+        self._attrs["to_bow"]   = bitstring.Bits(bin=bitstream[132:141])
+        self._attrs["to_stern"] = bitstring.Bits(bin=bitstream[141:150])
+        self._attrs["to_port"]  = bitstring.Bits(bin=bitstream[150:156])
+        self._attrs["to_starboard"]  = bitstring.Bits(bin=bitstream[156:162])
+        self._attrs["spare"]      = bitstring.Bits(bin=bitstream[162:168])
         
 class AIS(object):
     # Instance of the AISMessage class
