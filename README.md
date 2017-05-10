@@ -6,7 +6,7 @@ A Python library for decoding and encoding:
  * AIS type 5 messages
  * AIS type 24 part A and Part B messages (main craft case )
  
-As there exist reliable and comprehensive python decoders, the emphasisis is on encoding.
+As there exist reliable and comprehensive python decoders, the emphasis is on encoding.
 
 It is easy but boring to add further messages types, I will do it only if the need arises.
 To do it you need to read carefully the documentation, the best source I have found is http://catb.org/gpsd/AIVDM.html
