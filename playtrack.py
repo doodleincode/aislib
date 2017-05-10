@@ -1,10 +1,10 @@
 import aislib
 import time
 import sys
-ships={'kornaros':(239311000,'kornaros.txt','!AIVDM,1,1,,A,H3T>HV1HUA<DqA`u>0du8p58u<00?0,0*05'),
-       'highspeed4':(239658000,'highspeed4.txt','!AIVDM,1,1,,A,H3TST40PTLQ=0DDB3@0000000000?0,0*20'),
-       'venizelos':(237628000,'venizelos.txt','!AIVDM,1,1,,A,H3RWbH0DjqHDpU`Dhu<000000000?0,0*0E'),
-       'knossos':(237641000,'knossos.txt','!AIVDM,1,1,,A,H3R`M:0dpu=<u>104h4<D0000000?0,0*2D')}
+ships={'kornaros':(239311000,'kornaros.txt','!AIVDM,1,1,,A,53T>HV01hAoM=PqP001HUA<DqA`u>0du8p58u<0t891::40Ht;@00000000000000000000,2*04'),
+       'highspeed4':(239658000,'highspeed4.txt','!AIVDM,1,1,,A,53TST402<`;M=L`@000PTLQ=0DDB3@000000000`5hf<<40Ht7P00000000000000000000,2*1D'),
+       'venizelos':(237628000,'venizelos.txt','!AIVDM,1,1,,A,53RWbH01pbEU=MM`000DjqHDpU`Dhu<00000000t:iF>>40HtAP00000000000000000000,2*58'),
+       'knossos':(237641000,'knossos.txt','!AIVDM,1,1,,A,53R`M:02<LEu=U4t000dpu=<u>104h4<D000000t=Ic==40HtA000000000000000000000,2*2D')}
 def main():   
   ship='knossos'
   if len(sys.argv)>1: ship=sys.argv[1]
