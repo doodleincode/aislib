@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import aislib
 #
 # Tests for Message Type 1
@@ -16,14 +18,14 @@ aismsg = aislib.AISPositionReportMessage(
 )
 ais = aislib.AIS(aismsg)
 payload = ais.build_payload(False)
-print payload
-print "nav status: %d" % aismsg.get_attr("status")
+print(payload)
+print("nav status: %d" % aismsg.get_attr("status"))
 
 aismsg2 = ais.decode(payload)
 ais2 = aislib.AIS(aismsg2)
 payload2 = ais2.build_payload(False)
 assert payload ==  payload2
-print "nav status: %d" % aismsg2.get_attr("status")
+print("nav status: %d" % aismsg2.get_attr("status"))
 
 #print aismsg.id
 #print aismsg.repeat
@@ -42,7 +44,7 @@ aismsg = aislib.AISStaticDataReportAMessage(mmsi=237772000,shipname=aislib.AISSt
 aismsg = aislib.AISStaticDataReportAMessage(mmsi=237772000,shipname='OF THE HIGH SEAS')
 ais = aislib.AIS(aismsg)
 payload = ais.build_payload(False)
-print payload
+print(payload)
 aismsg2 = ais.decode(payload)
 ais2 = aislib.AIS(aismsg2)
 payload2 = ais2.build_payload(False)
@@ -57,7 +59,7 @@ aismsg = aislib.AISStaticDataReportBMessage(mmsi=237772000,shiptype=36,
          to_bow=5,to_stern=5,to_port=1,to_starboard=1)
 ais = aislib.AIS(aismsg)
 payload = ais.build_payload(False)
-print payload
+print(payload)
 aismsg2 = ais.decode(payload)
 ais2 = aislib.AIS(aismsg2)
 payload2 = ais2.build_payload(False)
@@ -66,7 +68,7 @@ assert payload ==  payload2
 # 
 # Tests for Message Type 5
 #
-print ' Tests for Message Type 5'
+print(' Tests for Message Type 5')
 aismsg = aislib.AISStaticAndVoyageReportMessage(mmsi=237772000,
          imo=0, 
          callsign='SVXYZ',
@@ -77,7 +79,7 @@ aismsg = aislib.AISStaticAndVoyageReportMessage(mmsi=237772000,
          destination='STROFADES')
 ais = aislib.AIS(aismsg)
 payload = ais.build_payload(False)
-print payload
+print(payload)
 aismsg2 = ais.decode(payload)
 ais2 = aislib.AIS(aismsg2)
 payload2 = ais2.build_payload(False)
