@@ -158,8 +158,8 @@ class AISMessage(object):
         pass
         
 class AISPositionReportMessage(AISMessage):
-    def __init__(self, id=1, repeat=0, mmsi=0, status=15, rot=-128, sog=0, pa=0,
-                       lon=0, lat=0, cog=3600, heading=511, ts=60, smi=0, spare=0, 
+    def __init__(self, id=1, repeat=0, mmsi=0, status=15, rot=0, sog=1023, pa=0,
+                       lon=181, lat=91, cog=3600, heading=511, ts=60, smi=0, spare=0, 
                        raim=0, comm_state=0):
         """
         Returns an instance of an AIS Position Report Message class
