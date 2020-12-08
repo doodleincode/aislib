@@ -84,3 +84,39 @@ aismsg2 = ais.decode(payload)
 ais2 = aislib.AIS(aismsg2)
 payload2 = ais2.build_payload(False)
 assert payload ==  payload2
+
+# 
+# Tests for Message Type 21
+#
+
+print(' Tests for Message Type 21')
+
+aismsg = aislib.AISAtonReport(
+         mmsi = 992659995, 
+         aid_type = 28, 
+         name = 'MEASUREMENT BUOY', 
+         lon = 10769643, 
+         lat = 37578551, 
+         virtual_aid = 0)
+ais = aislib.AIS(aismsg)
+payload = ais.build_payload(False)
+print(payload)  # !AIVDM,1,1,,A,E>jc:6v6RPaba2VRW:@1:WdP0000a5CcArkVp00000N000,0*4F
+aismsg2 = ais.decode(payload)
+ais2 = aislib.AIS(aismsg2)
+payload2 = ais2.build_payload(False)
+assert payload == payload2
+
+aismsg = aislib.AISAtonReport(
+         mmsi = 992659999, 
+         aid_type = 30, 
+         name = 'TEST AREA DEMARC. 1', 
+         lon = 10769878, 
+         lat = 37578659, 
+         virtual_aid = 1)
+ais = aislib.AIS(aismsg)
+payload = ais.build_payload(False)
+print(payload)  # !AIVDM,1,1,,A,E>jc:7w:2ab@0a2Ph22VPa1o@HP0a5GFArklH00000N010,0*09
+aismsg2 = ais.decode(payload)
+ais2 = aislib.AIS(aismsg2)
+payload2 = ais2.build_payload(False)
+assert payload == payload2
