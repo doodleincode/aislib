@@ -1,9 +1,13 @@
 from __future__ import print_function
 
 import aislib
+
 #
 # Tests for Message Type 1
 #
+
+print('Tests for Message Type 1')
+
 aismsg = aislib.AISPositionReportMessage(
     mmsi = 237772000,
     status = 8,
@@ -18,33 +22,76 @@ aismsg = aislib.AISPositionReportMessage(
 )
 ais = aislib.AIS(aismsg)
 payload = ais.build_payload(False)
-print(payload)
-print("nav status: %d" % aismsg.get_attr("status"))
-
+print(payload) # !AIVDM,1,1,,A,13RhLp801;QjL>0DD38:t?w@2D7k,0*3E
 aismsg2 = ais.decode(payload)
 ais2 = aislib.AIS(aismsg2)
 payload2 = ais2.build_payload(False)
 assert payload ==  payload2
-print("nav status: %d" % aismsg2.get_attr("status"))
 
-#print aismsg.id
-#print aismsg.repeat
+#
+# Tests for Message Type 2 (payload format as type 1)
+#
 
-#bitstr = aismsg.build_bitstream() 
-#print bitstr.bin
-#print bitstr.len
+print('Tests for Message Type 2 (payload format as type 1)')
+
+aismsg = aislib.AISPositionReportMessage(
+    id = 2,
+    mmsi = 237772000,
+    status = 8,
+    sog = 75,
+    pa = 1,
+    lon = (25*60+00)*10000,
+    lat = (35*60+30)*10000,
+    cog = 2800,
+    ts = 40,
+    raim = 1,
+    comm_state = 82419   
+)
+ais = aislib.AIS(aismsg)
+payload = ais.build_payload(False)
+print(payload) # !AIVDM,1,1,,A,23RhLp801;QjL>0DD38:t?w@2D7k,0*3D
+aismsg2 = ais.decode(payload)
+ais2 = aislib.AIS(aismsg2)
+payload2 = ais2.build_payload(False)
+assert payload ==  payload2
+
+#
+# Tests for Message Type 3 (payload format as type 1)
+#
+
+print('Tests for Message Type 3 (payload format as type 1)')
+
+aismsg = aislib.AISPositionReportMessage(
+    id = 3,
+    mmsi = 237772000,
+    status = 8,
+    sog = 75,
+    pa = 1,
+    lon = (25*60+00)*10000,
+    lat = (35*60+30)*10000,
+    cog = 2800,
+    ts = 40,
+    raim = 1,
+    comm_state = 82419   
+)
+ais = aislib.AIS(aismsg)
+payload = ais.build_payload(False)
+print(payload) # !AIVDM,1,1,,A,33RhLp801;QjL>0DD38:t?w@2D7k,0*3C
+aismsg2 = ais.decode(payload)
+ais2 = aislib.AIS(aismsg2)
+payload2 = ais2.build_payload(False)
+assert payload ==  payload2
 
 # 
 # Tests for Message Type 24 Format A
 #
-del aismsg
-del aismsg2
-#print aislib.AISString2Bits('ABC')
-aismsg = aislib.AISStaticDataReportAMessage(mmsi=237772000,shipname=aislib.AISString2Bits('OF THE HIGH SEAS').int)
+
+print('Tests for Message Type 24 Format A')
+
 aismsg = aislib.AISStaticDataReportAMessage(mmsi=237772000,shipname='OF THE HIGH SEAS')
 ais = aislib.AIS(aismsg)
 payload = ais.build_payload(False)
-print(payload)
+print(payload) # !AIVDM,1,1,,A,H3RhLp0tJ1@PF0PTLR1<D5<00000,0*68
 aismsg2 = ais.decode(payload)
 ais2 = aislib.AIS(aismsg2)
 payload2 = ais2.build_payload(False)
@@ -53,13 +100,16 @@ assert payload ==  payload2
 # 
 # Tests for Message Type 24 Format B
 #
+
+print('Tests for Message Type 24 Format B')
+
 aismsg = aislib.AISStaticDataReportBMessage(mmsi=237772000,shiptype=36,
          vendorid='DIY',
          callsign='SVXYZ',
          to_bow=5,to_stern=5,to_port=1,to_starboard=1)
 ais = aislib.AIS(aismsg)
 payload = ais.build_payload(False)
-print(payload)
+print(payload) # !AIVDM,1,1,,A,H3RhLp4T49I0000CFHIJ000`5110,0*64
 aismsg2 = ais.decode(payload)
 ais2 = aislib.AIS(aismsg2)
 payload2 = ais2.build_payload(False)
@@ -68,7 +118,9 @@ assert payload ==  payload2
 # 
 # Tests for Message Type 5
 #
-print(' Tests for Message Type 5')
+
+print('Tests for Message Type 5')
+
 aismsg = aislib.AISStaticAndVoyageReportMessage(mmsi=237772000,
          imo=0, 
          callsign='SVXYZ',
@@ -79,7 +131,7 @@ aismsg = aislib.AISStaticAndVoyageReportMessage(mmsi=237772000,
          destination='STROFADES')
 ais = aislib.AIS(aismsg)
 payload = ais.build_payload(False)
-print(payload)
+print(payload) # !AIVDM,1,1,,A,53RhLp000001=IQU`00tJ1@PF0PTLR1<D5<0000T0`5115GD?2Tm4SiPA1Dh00000000000,2*07
 aismsg2 = ais.decode(payload)
 ais2 = aislib.AIS(aismsg2)
 payload2 = ais2.build_payload(False)
@@ -89,7 +141,7 @@ assert payload ==  payload2
 # Tests for Message Type 21
 #
 
-print(' Tests for Message Type 21')
+print('Tests for Message Type 21')
 
 aismsg = aislib.AISAtonReport(
          mmsi = 992659995, 
