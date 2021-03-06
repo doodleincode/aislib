@@ -2,7 +2,7 @@ aislib
 ======
 
 A Python library for decoding and encoding:
- * AIS type 1 messages
+ * AIS type 1/2/3 messages
  * AIS type 5 messages
  * AIS type 21 messages
  * AIS type 24 part A and Part B messages (main craft case )
