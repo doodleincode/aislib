@@ -703,7 +703,7 @@ class AIS(object):
         return ("".join(encoded_str))+','+chr(ord('0')+fillbits)
 
 
-    def decode(self, msg):
+    def decode(self, msg, ignore_crc = False):
 
         """
         Decodes an AIS NMEA formatted message. Currently supports message 
@@ -719,7 +719,7 @@ class AIS(object):
         given_crc = int(msg[-2:], 16)
 
         # If CRC did not match, throw exception!
-        if given_crc != computed_crc:
+        if given_crc != computed_crc and not ignore_crc : 
             raise CRCInvalidError("The given CRC did not match the computed CRC.")
             
         # Otherwise we can continue with decoding the message
@@ -745,7 +745,12 @@ class AIS(object):
             bitstream = bitstream[:-int(fillbits[0])]
 
         msgId = bitstream[0:6]  #;print msgId
+
         if   msgId == '000001':
+             aismsg = AISPositionReportMessage()
+        elif  msgId == '000010':
+             aismsg = AISPositionReportMessage()
+        elif  msgId == '000011':
              aismsg = AISPositionReportMessage()
         elif msgId == '011000' and bitstream[38] == '0':
              aismsg = AISStaticDataReportAMessage()
