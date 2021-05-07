@@ -84,7 +84,6 @@ class AISMessage(object):
             # arr[1] == number of bits for given element
             # arr[2] == the default value for the element
             self._bitmap[key] = [ arr[0], arr[1] ]
-            
             # Set default value
             self.__setattr__(key, arr[2])
 
@@ -270,8 +269,8 @@ class AISStaticAndVoyageReportMessage(AISMessage):
                     'mmsi'         : ["uint", 30, mmsi], 
                     'ais_version'  : ["uint", 2, ais_version], 
                     'imo'          : ["uint", 30, imo], 
-                    'callsign'     : ["uint", 42, AISString2Bits(callsign,length=old_div(42,6)).int if type(callsign) == str else callsign], 
-                    'shipname'     : ["uint", 120, AISString2Bits(shipname,length=old_div(120,6)).int if type(shipname) == str else shipname], 
+                    'callsign'     : ["int", 42, AISString2Bits(callsign,length=old_div(42,6)).int if type(callsign) == str else callsign], 
+                    'shipname'     : ["int", 120, AISString2Bits(shipname,length=old_div(120,6)).int if type(shipname) == str else shipname], 
                     'shiptype'     : ["uint", 8, shiptype], 
                     'to_bow'       : ["uint", 9, to_bow], 
                     'to_stern'     : ["uint", 9, to_stern], 
@@ -283,7 +282,7 @@ class AISStaticAndVoyageReportMessage(AISMessage):
                     'hour'         : ["uint", 5, hour], 
                     'minute'       : ["uint", 6, minute], 
                     'draught'      : ["uint", 8, draught], 
-                    'destination'  : ["uint", 120, AISString2Bits(destination,length=old_div(120,6)).int if type(destination) == str else destination], 
+                    'destination'  : ["int", 120, AISString2Bits(destination,length=old_div(120,6)).int if type(destination) == str else destination], 
                     'dte'          : ["uint", 1, dte], 
                     'spare'        : ["uint", 1, spare]
                 })
@@ -358,7 +357,7 @@ class AISStaticDataReportAMessage(AISMessage):
                     'repeat'          : ["uint", 2, repeat], 
                     'mmsi'            : ["uint", 30, mmsi], 
                     'partno'          : ["uint", 2, partno], 
-                    'shipname'        : ["uint", 120, AISString2Bits(shipname,length=old_div(120,6)).int if type(shipname) == str else shipname], 
+                    'shipname'        : ["int", 120, AISString2Bits(shipname,length=old_div(120,6)).int if type(shipname) == str else shipname], 
                     'spare'           : ["uint", 8, spare]
                 })
 
@@ -406,10 +405,10 @@ class AISStaticDataReportBMessage(AISMessage):
                     'mmsi'            : ["uint", 30, mmsi], 
                     'partno'          : ["uint", 2, partno], 
                     'shiptype'        : ["uint", 8, shiptype], 
-                    'vendorid'        : ["uint", 18, AISString2Bits(vendorid,length=old_div(18,6)).int if type(vendorid) == str else vendorid], 
+                    'vendorid'        : ["int", 18, AISString2Bits(vendorid,length=old_div(18,6)).int if type(vendorid) == str else vendorid], 
                     'model'           : ["uint", 4, model], 
                     'serial'          : ["uint", 20, serial], 
-                    'callsign'        : ["uint", 42, AISString2Bits(callsign,length=old_div(42,6)).int if type(callsign) == str else callsign], 
+                    'callsign'        : ["int", 42, AISString2Bits(callsign,length=old_div(42,6)).int if type(callsign) == str else callsign], 
                     'to_bow'          : ["uint", 9, to_bow], 
                     'to_stern'        : ["uint", 9, to_stern], 
                     'to_port'         : ["uint", 6, to_port], 
@@ -539,7 +538,7 @@ class AISBinaryBroadcastMessageAreaNoticeCircle(AISMessage):
 class AISAtonReport(AISMessage):
 
 
-    def __init__(self, repeat = 0, mmsi = 0, aid_type = 0, name = 0, accuracy = 0, lon = 181000, lat = 91000, to_bow = 0, to_stern = 0, to_port = 0, to_starboard = 0, epfd = 0, ts = 60, off_position = 0, raim = 0, virtual_aid = 0, assigned = 0):
+    def __init__(self, repeat = 0, mmsi = 0, aid_type = 0, name = 0, accuracy = 0, lon = 181000, lat = 91000, to_bow = 0, to_stern = 0, to_port = 0, to_starboard = 0, epfd = 0, ts = 60, off_position = 0, raim = 0, virtual_aid = 0, assigned = 0, name_ext = 0):
 
         super(AISAtonReport, self).__init__({
                     # message_element : ["data_type", num_bits, initial_value]
@@ -547,7 +546,7 @@ class AISAtonReport(AISMessage):
                     'repeat'          : ["uint", 2, repeat], 
                     'mmsi'            : ["uint", 30, mmsi], 
                     'aid_type'        : ["uint", 5, aid_type], 
-                    'name'            : ["uint", 120, AISString2Bits(name,length=old_div(120,6)).int if type(name) == str else name], 
+                    'name'            : ["int", 120, AISString2Bits(name,length=old_div(120,6)).int if type(name) == str else name], 
                     'accuracy'        : ["uint", 1, accuracy],
                     'lon'             : ["int", 28, lon], 
                     'lat'             : ["int", 27, lat], 
@@ -563,6 +562,7 @@ class AISAtonReport(AISMessage):
                     'virtual_aid'     : ["uint", 1, virtual_aid], 
                     'assigned'        : ["uint", 1, assigned], 
                     'spare'           : ["uint", 1, 0],
+                    'name_ext'        : ["int", 84, AISString2Bits(name_ext,length=old_div(84,6)).int if type(name_ext) == str else name_ext], 
                     'pad'             : ["uint", 4, 0]
                 })
 
@@ -589,6 +589,7 @@ class AISAtonReport(AISMessage):
             self.virtual_aid,
             self.assigned,
             self.spare,
+            self.name_ext,
             self.pad
         ])
 
@@ -615,7 +616,8 @@ class AISAtonReport(AISMessage):
         self._attrs["virtual_aid"]  = bitstring.Bits(bin=bitstream[269:270])
         self._attrs["assigned"]     = bitstring.Bits(bin=bitstream[270:271])
         self._attrs["spare"]        = bitstring.Bits(bin=bitstream[271:272])
-        self._attrs["pad"]          = bitstring.Bits(bin=bitstream[272:276])
+        self._attrs["name_ext"]     = bitstring.Bits(bin=bitstream[272:356])
+        self._attrs["pad"]          = bitstring.Bits(bin=bitstream[356:360])
 
 
 
