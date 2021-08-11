@@ -9,9 +9,6 @@ A Python library for decoding and encoding:
 
 As there exist reliable and comprehensive python decoders, the emphasis is on encoding.
 
-It is easy but boring to add further messages types, I will do it only if the need arises.
-To do it you need to read carefully the documentation, the best source I have found is http://catb.org/gpsd/AIVDM.html
-
 The bitstring Python library is a required dependency. You can get it here: https://pypi.python.org/pypi/bitstring
 
 TODO
